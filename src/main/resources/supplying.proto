@@ -1,0 +1,23 @@
+ syntax = "proto3";
+ 
+ option java_multiple_files = true;
+ option java_package = "supplying";
+ option java_outer_classname = "SupplyingServiceImpl";
+ 
+ package supplying;
+ 
+ service SupplyingService {
+ 
+ 	rpc turnOnSupply(SupplyRequest) returns (SupplyResponse);
+ 
+ }
+ 
+ message SupplyRequest{
+  
+ }
+ 
+ message SupplyResponse{
+ 
+ 	string text = 1;
+ 
+ }
