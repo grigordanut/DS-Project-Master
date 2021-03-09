@@ -8,12 +8,12 @@ public interface SupplyResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string text = 1;</code>
+   * <code>string supplyStatus = 1;</code>
    */
-  java.lang.String getText();
+  java.lang.String getSupplyStatus();
   /**
-   * <code>string text = 1;</code>
+   * <code>string supplyStatus = 1;</code>
    */
   com.google.protobuf.ByteString
-      getTextBytes();
+      getSupplyStatusBytes();
 }

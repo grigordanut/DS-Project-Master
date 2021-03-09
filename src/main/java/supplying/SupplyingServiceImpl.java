@@ -33,12 +33,13 @@ public final class SupplyingServiceImpl {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017supplying.proto\022\tsupplying\"\017\n\rSupplyRe" +
-      "quest\"\036\n\016SupplyResponse\022\014\n\004text\030\001 \001(\t2W\n" +
-      "\020SupplyingService\022C\n\014turnOnSupply\022\030.supp" +
-      "lying.SupplyRequest\032\031.supplying.SupplyRe" +
-      "sponseB#\n\tsupplyingB\024SupplyingServiceImp" +
-      "lP\001b\006proto3"
+      "\n\017supplying.proto\022\tsupplying\"%\n\rSupplyRe" +
+      "quest\022\024\n\014updateStatus\030\001 \001(\t\"&\n\016SupplyRes" +
+      "ponse\022\024\n\014supplyStatus\030\001 \001(\t2W\n\020Supplying" +
+      "Service\022C\n\014turnOnSupply\022\030.supplying.Supp" +
+      "lyRequest\032\031.supplying.SupplyResponseB#\n\t" +
+      "supplyingB\024SupplyingServiceImplP\001b\006proto" +
+      "3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -57,13 +58,13 @@ public final class SupplyingServiceImpl {
     internal_static_supplying_SupplyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_supplying_SupplyRequest_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "UpdateStatus", });
     internal_static_supplying_SupplyResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_supplying_SupplyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_supplying_SupplyResponse_descriptor,
-        new java.lang.String[] { "Text", });
+        new java.lang.String[] { "SupplyStatus", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

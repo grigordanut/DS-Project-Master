@@ -13,11 +13,14 @@
  }
  
  message SupplyRequest{
+ 
+  	string updateStatus = 1;
   
  }
  
  message SupplyResponse{
  
- 	string text = 1;
+ 	string supplyStatus = 1;
  
  }
+ 

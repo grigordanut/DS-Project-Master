@@ -6,4 +6,14 @@ package supplying;
 public interface SupplyRequestOrBuilder extends
     // @@protoc_insertion_point(interface_extends:supplying.SupplyRequest)
     com.google.protobuf.MessageOrBuilder {
+
+  /**
+   * <code>string updateStatus = 1;</code>
+   */
+  java.lang.String getUpdateStatus();
+  /**
+   * <code>string updateStatus = 1;</code>
+   */
+  com.google.protobuf.ByteString
+      getUpdateStatusBytes();
 }
