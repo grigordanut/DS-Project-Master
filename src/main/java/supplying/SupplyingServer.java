@@ -1,129 +1,105 @@
 package supplying;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.logging.Logger;
-
-import javax.jmdns.JmDNS;
-import javax.jmdns.ServiceEvent;
-import javax.jmdns.ServiceListener;
+import java.io.InputStream;
+import java.util.Properties;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
-import jmDNS.Discovery.SampleListener;
+import jmDNS.RegistrationService;
 import supplying.SupplyingServiceGrpc.SupplyingServiceImplBase;
 
 public class SupplyingServer extends SupplyingServiceImplBase {
-	
-	private static final Logger logger = Logger.getLogger(SupplyingServer.class.getName());
-	
-	private static class SampleListener implements ServiceListener {
+	//Ports
+	static int supplyingPort;
 
-		@Override
-		public void serviceAdded(ServiceEvent event) {
-			System.out.println("Service added: "+event.getInfo().getPort());
-			
-		}
-
-		@Override
-		public void serviceRemoved(ServiceEvent event) {
-			System.out.println("Service removed: "+event.getInfo());
-			
-		}
-
-		@Override
-		public void serviceResolved(ServiceEvent event) {
-			System.out.println("Service resolved: "+event.getInfo());
-			
-			SupplyingServer supplyingServer = new SupplyingServer();
-			
-			int port = 50051;
-			
-			try {
-				Server server = ServerBuilder.forPort(event.getInfo().getPort())
-						.addService(supplyingServer)
-						.build()
-						.start();
-				
-				logger.info("Supplying server started, listening on port: "+port);
-				
-				server.awaitTermination();	
-				
-				
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-		}
+	public static void main(String[] args) {
+		
 		
 	}
-
 	
 	
-	public static void main(final String[] args) throws InterruptedException {
+	
+	public static void startGrpc() {
 		
-//		SupplyingServer supplyingServer = new SupplyingServer();
-//		
-//		int port = 50051;
-//		
-//		try {
-//			Server server = ServerBuilder.forPort(port)
-//										.addService(supplyingServer)
-//										.build()
-//										.start();
-//			
-//			//System.out.println("Supplying server started, listening on port: "+port);
-//			
-//			//server.awaitTermination();
-//			
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} 
+		RegistrationService regServ = new RegistrationService();
 		
-		//get an instance from JmDNS
+		
+		
 		try {
-			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
-			
-			//Add service listener
-			jmdns.addServiceListener("_http._tcp.local.", new SampleListener());
-			System.out.println("Listening: ");
-			
-			//Wait a bit			
-			Thread.sleep(10000);
-			
-		} catch (UnknownHostException e) {
+			regServ.jmDNSRegister(supplyingPort);
+		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
+		}
+		
+		SupplyingServer supplyingServer = new SupplyingServer();
+		
+		
+		Properties prop = supplyingServer.getProperties();
+		
+		int port = 50051;
+		
+		try {
+			Server server = ServerBuilder.forPort(port)
+										.addService(supplyingServer)
+										.build()
+										.start();
+			
+			System.out.println("Supplying server started, listening on port: "+port);
+			
+			server.awaitTermination();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
+		
+	
+	private Properties getProperties() {
+		
+		Properties prop = null;
+		
+		//Defined the input properties path
+		try (InputStream input = new FileInputStream("src/main/resources/supplying.properties")){
+			
+			prop = new Properties();
+			
+			//load a properties file
+			prop.load(input);
+			
+			// get the property value and print it out
+            System.out.println("Supplying Service properies ...");
+            System.out.println("\t service_type: " + prop.getProperty("service_type"));
+            System.out.println("\t service_name: " +prop.getProperty("service_name"));
+            System.out.println("\t service_description: " +prop.getProperty("service_description"));
+	        System.out.println("\t service_port: " +prop.getProperty("service_port"));
+			
+		}catch(IOException ex) {
+			ex.printStackTrace();
+		}	
+		
+		return prop;
+	}
 	
 	@Override
-	public void turnOnSupply(final SupplyRequest request, 
-			final StreamObserver<SupplyResponse> responseObserver) {
+	public void turnOnSupply(SupplyRequest request, StreamObserver<SupplyResponse> responseObserver) {
 		
-		System.out.println("receiving message, The status is: " +request.getUpdateStatus());
+		System.out.println("Receiving supplying status request: ");
 		
 		SupplyResponse response = SupplyResponse.newBuilder()
-				.setSupplyStatus("The supplying service is turned "+request.getUpdateStatus())
+				.setSupplyStatus("The supplying service is turned "+ request.getUpdateStatus())
 				.build();
-				
 		
 		responseObserver.onNext(response);
 		responseObserver.onCompleted();	
-		
 	}
 
 }

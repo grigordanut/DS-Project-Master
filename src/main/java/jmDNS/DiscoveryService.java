@@ -9,9 +9,9 @@ import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
 import javax.jmdns.ServiceListener;
 
-public class Discovery {
+public class DiscoveryService {
 	
-	public static class SampleListener implements ServiceListener{
+	private static class MyServiceListener implements ServiceListener{
 
 		@Override
 		public void serviceAdded(ServiceEvent event) {
@@ -42,13 +42,15 @@ public class Discovery {
 
 	public static void main(String[] args) throws InterruptedException {
 		
-		try {
-			
+		try {						
 			//get an instance from JmDNS
 			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
 			
+			//i will discover service based on service_type
+			String service_type = "_http._tcp.local.";
+			
 			//Add service listener
-			jmdns.addServiceListener("_http._tcp.local.", new SampleListener());
+			jmdns.addServiceListener(service_type, new MyServiceListener());
 			System.out.println("Listening: ");
 			
 			//Wait a bit
@@ -60,7 +62,7 @@ public class Discovery {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		} 
 
 	}
 

@@ -87,6 +87,9 @@ public final class SupplyingServiceGrpc {
   public static abstract class SupplyingServiceImplBase implements io.grpc.BindableService {
 
     /**
+     * <pre>
+     *Unary call
+     * </pre>
      */
     public void turnOnSupply(supplying.SupplyRequest request,
         io.grpc.stub.StreamObserver<supplying.SupplyResponse> responseObserver) {
@@ -125,6 +128,9 @@ public final class SupplyingServiceGrpc {
     }
 
     /**
+     * <pre>
+     *Unary call
+     * </pre>
      */
     public void turnOnSupply(supplying.SupplyRequest request,
         io.grpc.stub.StreamObserver<supplying.SupplyResponse> responseObserver) {
@@ -152,6 +158,9 @@ public final class SupplyingServiceGrpc {
     }
 
     /**
+     * <pre>
+     *Unary call
+     * </pre>
      */
     public supplying.SupplyResponse turnOnSupply(supplying.SupplyRequest request) {
       return blockingUnaryCall(
@@ -178,6 +187,9 @@ public final class SupplyingServiceGrpc {
     }
 
     /**
+     * <pre>
+     *Unary call
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<supplying.SupplyResponse> turnOnSupply(
         supplying.SupplyRequest request) {

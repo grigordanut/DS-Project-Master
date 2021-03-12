@@ -1,10 +1,12 @@
+C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\jmDNS\DiscoveryService.java
 C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\supplying\SupplyingServiceGrpc.java
 C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\supplying\SupplyingServer.java
 C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\supplying\SupplyingServiceImpl.java
 C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\supplying\SupplyingClient.java
+C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\supplying\SupplyingServiceGUI.java
 C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\supplying\SupplyResponse.java
-C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\jmDNS\Registration.java
-C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\jmDNS\Discovery.java
+C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\jmDNS\RegistrationService.java
+C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\GUI\SupplyingServiceGUI.java
 C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\supplying\SupplyRequest.java
 C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\supplying\SupplyRequestOrBuilder.java
 C:\Users\danut\eclipse-workspace\SmartSupplyChainManagement\src\main\java\supplying\SupplyResponseOrBuilder.java

@@ -2,13 +2,12 @@ package supplying;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import supplying.SupplyingServiceGrpc.SupplyingServiceBlockingStub;
 
 public class SupplyingClient {
 	
-	private static SupplyingServiceGrpc.SupplyingServiceStub asyncStub;
     private static SupplyingServiceGrpc.SupplyingServiceBlockingStub blockingStub;
-
+    private static SupplyingServiceGrpc.SupplyingServiceStub asyncStub;
+    
 	public static void main(String[] args) {
 		
 //		String host = "localhost";
@@ -31,25 +30,28 @@ public class SupplyingClient {
 //		
 //		System.out.println("Server responding with "+response.getSupplyStatus());
 		
-		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051)
+		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053)
 														.usePlaintext()
 														.build();
 
 		//stubs -- generate from proto
 		blockingStub = SupplyingServiceGrpc.newBlockingStub(channel);
 		asyncStub = SupplyingServiceGrpc.newStub(channel);
-
+		
+//		SupplyRequest request = SupplyRequest.newBuilder().setUpdateStatus("Update status").build();
+//		SupplyResponse response = blockingStub.turnOnSupply(request);
+//		System.out.println("Server responding with "+response.getSupplyStatus());
+		
 	}
 	
-	// TURN ON LIGHTS
-    public static String turnOnSupply() throws io.grpc.StatusRuntimeException{
+		
+	// TURN ON SUPPLY
+    public static void turnOnSupply() throws io.grpc.StatusRuntimeException {
     	
-    	SupplyRequest request = SupplyRequest.newBuilder().setUpdateStatus("Update status").build();
+    	SupplyRequest request = SupplyRequest.newBuilder().setUpdateStatus("Off").build();
     	SupplyResponse response = blockingStub.turnOnSupply(request);
-    	
-    	//SupplyResponse response = blockingStub.turnOnSupply(null);
-        System.out.print(response.getSupplyStatus());
-        return response.getSupplyStatus();
+    	System.out.print(response.getSupplyStatus());
+        
     }
 
 }

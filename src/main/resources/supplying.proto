@@ -7,7 +7,8 @@
  package supplying;
  
  service SupplyingService {
- 
+ 	
+ 	//Unary call
  	rpc turnOnSupply(SupplyRequest) returns (SupplyResponse);
  
  }
