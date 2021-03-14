@@ -2,56 +2,39 @@ package supplying;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import supplying.SupplyingServiceGrpc.SupplyingServiceBlockingStub;
+import supplying.SupplyingServiceGrpc.SupplyingServiceStub;
 
 public class SupplyingClient {
 	
-    private static SupplyingServiceGrpc.SupplyingServiceBlockingStub blockingStub;
-    private static SupplyingServiceGrpc.SupplyingServiceStub asyncStub;
-    
+	private static SupplyingServiceBlockingStub blockingStub;
+	private static SupplyingServiceStub asyncStub;
+
 	public static void main(String[] args) {
 		
-//		String host = "localhost";
-//		
-//		int port = 50051;
-//		
-//		ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port)
-//														.usePlaintext()
-//														.build();
-//														
-//													
-//		
-//		//retrieve the client stub
-//		//blocking means that stub can be use for synchronous calls
-//		SupplyingServiceBlockingStub blockingStub = SupplyingServiceGrpc.newBlockingStub(channel);
-//		
-//		SupplyRequest request = SupplyRequest.newBuilder().setUpdateStatus("Update status").build();
-//		
-//		SupplyResponse response = blockingStub.turnOnSupply(request);
-//		
-//		System.out.println("Server responding with "+response.getSupplyStatus());
+		ManagedChannel channel = ManagedChannelBuilder
+						.forAddress("localhost", 50051)
+						.usePlaintext()
+						.build();
 		
-		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053)
-														.usePlaintext()
-														.build();
-
 		//stubs -- generate from proto
 		blockingStub = SupplyingServiceGrpc.newBlockingStub(channel);
 		asyncStub = SupplyingServiceGrpc.newStub(channel);
 		
-//		SupplyRequest request = SupplyRequest.newBuilder().setUpdateStatus("Update status").build();
-//		SupplyResponse response = blockingStub.turnOnSupply(request);
-//		System.out.println("Server responding with "+response.getSupplyStatus());
+		turnOnSupply();
 		
 	}
 	
+	//TURN ON SUPPLY
+	public static void turnOnSupply() {
 		
-	// TURN ON SUPPLY
-    public static void turnOnSupply() throws io.grpc.StatusRuntimeException {
-    	
-    	SupplyRequest request = SupplyRequest.newBuilder().setUpdateStatus("Off").build();
-    	SupplyResponse response = blockingStub.turnOnSupply(request);
-    	System.out.print(response.getSupplyStatus());
-        
-    }
+		String status = "On";
+		SupplyRequest request = SupplyRequest.newBuilder()
+							.setUpdateStatus(status)
+							.build();
+		SupplyResponse response = blockingStub.turnOnSupply(request);
+		System.out.println("Server responded with: " + response.getSupplyStatus());
+		
+	}
 
 }
