@@ -15,6 +15,20 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import supplying.SupplyingServiceGrpc.SupplyingServiceBlockingStub;
 import supplying.SupplyingServiceGrpc.SupplyingServiceStub;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JToggleButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import com.google.type.Color;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SupplyingGUI {
 
@@ -24,6 +38,9 @@ public class SupplyingGUI {
 	private static SupplyingServiceStub asyncStub;
 	
 	private ServiceInfo supplyServiceInfo;
+	
+	public JLabel supplyInfo_Status;
+	private JTextField txtEnterProductName;
 
 	/**
 	 * Launch the application.
@@ -45,9 +62,16 @@ public class SupplyingGUI {
 	 * Create the application.
 	 */
 	public SupplyingGUI() {
+				
+//		String math_service_type = "_maths._tcp.local.";		
+//		discoverMathService(math_service_type);		
+//		String host = mathServiceInfo.getHostAddresses()[0];
+//		System.out.println(host);
+//		int port = mathServiceInfo.getPort();
 		
-		String supply_service_type = "_supply._tcp.local.";
-		discoverySupplyService(supply_service_type);
+		//SupplyingServer.main(null);
+		
+		discoverySupplyService();
 		
 		@SuppressWarnings("deprecation")
 		String host = supplyServiceInfo.getHostAddress();
@@ -64,11 +88,13 @@ public class SupplyingGUI {
 		initialize();
 	}
 	
-	public void discoverySupplyService(String service_type) {
+	public void discoverySupplyService() {
 		
 		try {
 			//Create a JmDNS instance
 			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+			
+			String service_type = "_supplying._tcp.local.";
 			
 			jmdns.addServiceListener(service_type, new ServiceListener(){
 
@@ -124,8 +150,125 @@ public class SupplyingGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.getContentPane().setFont(new Font("Tahoma", Font.BOLD, 10));
+		frame.setBounds(100, 100, 726, 431);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
+		frame.getContentPane().setLayout(null);
+		
+		//Main service Label
+		JLabel lblSupplyService = new JLabel("Supply Service");
+		lblSupplyService.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblSupplyService.setBounds(260, 10, 160, 40);
+		frame.getContentPane().add(lblSupplyService);
+		
+		JLabel lblNewLabel = new JLabel("Change Status");
+		lblNewLabel.setBackground(java.awt.Color.WHITE);
+		lblNewLabel.setForeground(java.awt.Color.BLACK);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNewLabel.setBounds(40, 80, 150, 25);
+		frame.getContentPane().add(lblNewLabel);
+		
+		//Service Status Info	
+		JLabel lblNewLabel_1 = new JLabel("Service Info");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
+		lblNewLabel_1.setBounds(50, 231, 144, 25);
+		frame.getContentPane().add(lblNewLabel_1);
+		
+		//Show Service Status	
+		supplyInfo_Status = new JLabel("Status: Idle");
+		supplyInfo_Status.setFont(new Font("Tahoma", Font.BOLD, 16));
+		supplyInfo_Status.setBounds(67, 266, 290, 25);
+		frame.getContentPane().add(supplyInfo_Status);
+		
+		
+		JLabel lblNewLabel_2 = new JLabel("Add More Products");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_2.setBounds(180, 115, 120, 25);
+		frame.getContentPane().add(lblNewLabel_2);
+		
+		//Text field enter product name
+		txtEnterProductName = new JTextField();
+		txtEnterProductName.setText("Enter Product Name");
+		txtEnterProductName.setBounds(50, 155, 144, 25);
+		frame.getContentPane().add(txtEnterProductName);
+		txtEnterProductName.setColumns(10);
+		txtEnterProductName.addMouseListener(new MouseListener(){
 
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtEnterProductName.setText(" ");
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		
+		JButton btn_AddProduct = new JButton("Add Product");
+		btn_AddProduct.setBackground(java.awt.Color.WHITE);
+		btn_AddProduct.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_AddProduct.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		btn_AddProduct.setBounds(215, 155, 110, 25);
+		frame.getContentPane().add(btn_AddProduct);
+		
+		
+		
+		//Toggle button turn service On/Off		
+		final JToggleButton supplyOnOff_tgl = new JToggleButton("On");
+		supplyOnOff_tgl.setBounds(214, 80, 100, 25);
+		frame.getContentPane().add(supplyOnOff_tgl);
+		supplyOnOff_tgl.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if(supplyOnOff_tgl.isSelected()) {
+					supplyOnOff_tgl.setText("On");
+					String status = "On";
+					SupplyRequest requestOn = SupplyRequest.newBuilder().setUpdateStatus(status).build();
+					SupplyResponse responseOn= blockingStub.turnOnSupply(requestOn);
+					supplyInfo_Status.setText("Status: " +status);	
+					System.out.println(responseOn.getSupplyStatus());
+				}
+				
+				else {
+					supplyOnOff_tgl.setText("Off");
+					String status = "Off";
+					SupplyRequest requestOff = SupplyRequest.newBuilder().setUpdateStatus(status).build();
+					SupplyResponse responseOff= blockingStub.turnOnSupply(requestOff);
+					supplyInfo_Status.setText("Status: " +status);	
+					System.out.println(responseOff.getSupplyStatus());
+				
+				}				
+			}
+			
+		});
+	}
 }

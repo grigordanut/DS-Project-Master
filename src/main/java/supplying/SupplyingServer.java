@@ -98,11 +98,11 @@ public class SupplyingServer extends SupplyingServiceImplBase {
 			//Wait a bit
 			Thread.sleep(1000);
 			
-			System.out.println("Ready to unregister services");
+			//System.out.println("Ready to unregister services");
 			
 			//Unregister all services
 			//jmdns.unregisterAllServices();
-			jmdns.unregisterService(serviceInfo);
+			//jmdns.unregisterService(serviceInfo);
 			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -119,7 +119,7 @@ public class SupplyingServer extends SupplyingServiceImplBase {
 		System.out.println("Receiving supplying status request: " +request.getUpdateStatus());
 		
 		SupplyResponse response = SupplyResponse.newBuilder()
-				.setSupplyStatus("The Supplying serviceis turned " + request.getUpdateStatus())
+				.setSupplyStatus("The Supplying service has been turned " + request.getUpdateStatus())
 				.build();
 		
 		responseObserver.onNext(response);
